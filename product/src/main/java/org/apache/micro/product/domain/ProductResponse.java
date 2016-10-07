@@ -1,10 +1,10 @@
-package org.apache.micro.order.domain;
+package org.apache.micro.product.domain;
 
-public class OrderResponse {
+public class ProductResponse {
 
-	private String status ;
-	
-	private String message ;
+	private String status;
+
+	private String message;
 
 	public String getStatus() {
 		return status;
@@ -21,6 +21,5 @@ public class OrderResponse {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
-	
+
 }

@@ -1,4 +1,4 @@
-package org.apache.micro.eureka;
+package org.apache.micro.turbine;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

@@ -31,15 +31,15 @@ public class OrderServiceImpl implements OrderService{
 	public OrderResponse receive(OrderRequest request) {
 		System.out.println("order receive........");
 		
-		String result = productClient.add(10,20) ;
-		System.out.println(result);
+//		String result = productClient.add(10,20) ;
+//		System.out.println(result);
+//		
+//		result = productClient.save() ;
+//		System.out.println(result);
 		
-		result = productClient.save() ;
-		System.out.println(result);
-		
-//		if(Math.random() > 0.5){
-//			throw new RuntimeException("is not ok") ;
-//		}
+		if(Math.random() > 0.5){
+			throw new RuntimeException("is not ok") ;
+		}
 //		ServiceInstance instance = loadBalancer.choose("PRODUCTAPPLICATION") ;
 //		System.out.println(instance.getMetadata().toString()) ;
 ////		List<ServiceInstance> instances = discoveryClient.getInstances("PRODUCTAPPLICATION") ;
@@ -53,7 +53,8 @@ public class OrderServiceImpl implements OrderService{
 		return resp;
 	}
 	
-	public OrderResponse receiveFailed(OrderRequest request){
+	public OrderResponse receiveFailed(OrderRequest request,Throwable t){
+		t.printStackTrace();
 		
 		System.out.println("receive failed fast.............");
 		

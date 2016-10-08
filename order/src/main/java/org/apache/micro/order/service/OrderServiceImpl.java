@@ -1,12 +1,10 @@
 package org.apache.micro.order.service;
 
-import java.util.List;
-
 import org.apache.micro.order.domain.OrderRequest;
 import org.apache.micro.order.domain.OrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,8 +17,13 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 @RequestMapping(path="/orderr")
 public class OrderServiceImpl implements OrderService{
 	
+//	@Autowired
+//	private DiscoveryClient discoveryClient;
+//	@Autowired
+//	private LoadBalancerClient loadBalancer ;
+	
 	@Autowired
-	private DiscoveryClient discoveryClient;
+	private ProductClient productClient ;
 
 	@Override
 	@RequestMapping("/receive")
@@ -28,8 +31,19 @@ public class OrderServiceImpl implements OrderService{
 	public OrderResponse receive(OrderRequest request) {
 		System.out.println("order receive........");
 		
-		List<ServiceInstance> instances = discoveryClient.getInstances("PRODUCTAPPLICATION") ;
-		System.out.println("product instances size => "+instances.size());
+		String result = productClient.add(10,20) ;
+		System.out.println(result);
+		
+		result = productClient.save() ;
+		System.out.println(result);
+		
+//		if(Math.random() > 0.5){
+//			throw new RuntimeException("is not ok") ;
+//		}
+//		ServiceInstance instance = loadBalancer.choose("PRODUCTAPPLICATION") ;
+//		System.out.println(instance.getMetadata().toString()) ;
+////		List<ServiceInstance> instances = discoveryClient.getInstances("PRODUCTAPPLICATION") ;
+//		System.out.println(instance.getUri().toString());
 		
 		
 		

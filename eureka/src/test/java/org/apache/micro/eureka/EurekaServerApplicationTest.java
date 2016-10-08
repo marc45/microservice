@@ -1,11 +1,7 @@
 package org.apache.micro.eureka;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import com.netflix.discovery.DiscoveryManager;
 
 public class EurekaServerApplicationTest {
 
@@ -15,7 +11,8 @@ public class EurekaServerApplicationTest {
 
 	@Test
 	public void test() {
-		DiscoveryManager.getInstance().getDiscoveryClient() ;
+//		EurekaClient client = null ;
+//		client.get
 	}
 
 }

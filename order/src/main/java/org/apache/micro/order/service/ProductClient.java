@@ -5,12 +5,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient("PRODUCTAPPLICATION")
+@FeignClient("API-GATEWAY")
 public interface ProductClient {
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/product/add")
+	@RequestMapping(method = RequestMethod.GET, value = "/productapplication/product/add")
 	public String add(@RequestParam("a") Integer a,@RequestParam("b") Integer b) ;
-	@RequestMapping(method = RequestMethod.GET, value = "/product/save")
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/productapplication/product/save")
 	public String save() ;
 
 }

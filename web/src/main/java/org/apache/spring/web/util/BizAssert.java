@@ -7,10 +7,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
-@Component
 public class BizAssert implements MessageSourceAware{
 	
-	@Autowired
 	private static MessageSource messageSource ;
 	
 	public void setMessageSource(MessageSource messageSource) {

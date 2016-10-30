@@ -1,14 +1,21 @@
 package org.apache.micro.zipkin;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * ZipkinApplication
  *
  */
-@SpringBootApplication
 public class ZipkinApplication {
 	public static void main(String[] args) {
-		System.out.println("Hello World!");
+		Map<String, String> data = new HashMap<>() ;
+		data.put("a", "bcd") ;
+		String v = data.putIfAbsent("a", "vvvv") ;
+		System.out.println(v);
+		
+		
+	
 	}
 }

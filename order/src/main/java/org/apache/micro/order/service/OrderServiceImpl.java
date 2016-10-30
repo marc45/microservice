@@ -2,6 +2,7 @@ package org.apache.micro.order.service;
 
 import org.apache.micro.order.domain.OrderRequest;
 import org.apache.micro.order.domain.OrderResponse;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,10 @@ public class OrderServiceImpl implements OrderService{
 //	@Autowired
 //	private LoadBalancerClient loadBalancer ;
 	
+	private RabbitTemplate rabbitTemplate ;
+	
+
+	
 	@Autowired
 	private ProductClient productClient ;
 
@@ -27,21 +32,9 @@ public class OrderServiceImpl implements OrderService{
 	@RequestMapping("/receive")
 	@HystrixCommand(fallbackMethod = "receiveFailed")
 	public OrderResponse receive(OrderRequest request) {
-		System.out.println("order receive........");
 		
-		String result = productClient.add(10,20) ;
-		System.out.println(result);
-		
-		result = productClient.save() ;
-		System.out.println(result);
-		
-//		if(Math.random() > 0.5){
-//			throw new RuntimeException("is not ok") ;
-//		}
-//		ServiceInstance instance = loadBalancer.choose("PRODUCTAPPLICATION") ;
-//		System.out.println(instance.getMetadata().toString()) ;
-////		List<ServiceInstance> instances = discoveryClient.getInstances("PRODUCTAPPLICATION") ;
-//		System.out.println(instance.getUri().toString());
+		//获取商品信息
+		//并发处理库存扣减，及财务捐款
 		
 		
 		

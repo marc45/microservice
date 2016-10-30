@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.apache.micro</groupId>
-	<artifactId>order</artifactId>
+	<artifactId>rabbitmq</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>order</name>
+	<name>rabbitmq</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -18,48 +18,14 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-amqp</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-eureka-server</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-eureka</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-hystrix</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
-		</dependency>
-		
-		<dependency>
-		    <groupId>org.springframework.cloud</groupId>
-		    <artifactId>spring-cloud-starter-ribbon</artifactId>
-		</dependency>
-		<dependency>
-	        <groupId>org.springframework.cloud</groupId>
-	        <artifactId>spring-cloud-starter-feign</artifactId>
-	    </dependency>
-
-
 	</dependencies>
 
 	<dependencyManagement>
@@ -68,13 +34,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
 				<version>${spring.boot.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-starter-parent</artifactId>
-				<version>Brixton.SR6</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>

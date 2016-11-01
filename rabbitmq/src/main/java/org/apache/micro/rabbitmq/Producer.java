@@ -1,6 +1,5 @@
 package org.apache.micro.rabbitmq;
 
-import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 public class Producer implements Runnable {

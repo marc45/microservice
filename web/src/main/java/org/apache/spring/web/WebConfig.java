@@ -43,6 +43,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		HandlerExceptionResolver resolver = new ExceptionResolver() ;
 		exceptionResolvers.add(resolver) ;
 	}
+
+	@Override
+	public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+		super.configureHandlerExceptionResolvers(exceptionResolvers);
+		
+	}
+	
+	
+	
 	
 
 	

@@ -1,20 +1,33 @@
 package org.apache.micro.rabbitmq;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import java.io.IOException;
+
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.Connection;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+
+import com.rabbitmq.client.AMQP.Queue.DeclareOk;
+import com.rabbitmq.client.Channel;
+
 
 
 /**
  * RabbitmqApplication
  *
  */
-@SpringBootApplication
-@EnableScheduling
 public class RabbitmqApplication {
 	
 	
-	public static void main(String[] args) {
-		SpringApplication.run(RabbitmqApplication.class, args);
+	public static void main(String[] args) throws IOException {
+		CachingConnectionFactory connectionFactory = new CachingConnectionFactory("192.168.1.110");
+//		template.
+		connectionFactory.setUsername("guest");
+		connectionFactory.setPassword("guest");
+
+		Connection connection = connectionFactory.createConnection();
+		Channel channel = connection.createChannel(true) ;
+//		channel.basiccon
+		
+		DeclareOk ok = channel.queueDeclare() ;
 	}
 }

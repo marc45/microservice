@@ -4,6 +4,8 @@ public class DataSourceDomain extends BaseDomain {
 
 	private long id;
 
+	private String dsName;
+
 	private String driver;
 
 	private String url;
@@ -18,6 +20,14 @@ public class DataSourceDomain extends BaseDomain {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getDsName() {
+		return dsName;
+	}
+
+	public void setDsName(String dsName) {
+		this.dsName = dsName;
 	}
 
 	public String getUrl() {

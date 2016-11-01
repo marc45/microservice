@@ -6,23 +6,35 @@ import java.util.List;
 
 import javax.persistence.Id;
 
-import org.apache.base.util.ReflectGetterUtils;
+import org.apache.base.util.ReflectUtils;
 
 public class Update extends Where {
 	private Object update;
 	private String[] properties;
+	
+	private static Update newUpdate(Object obj) {
+		Update update = new Update();
+		return update;
+	}
+
 
 	public static Update newUpdate(Object obj, String[] properties) {
-		Update update = new Update();
-		update.addSetProperties(properties);
+		Update update = newUpdate(obj).addSetProperties(properties) ;
 		return update;
 	}
 
 	public static Update newUpdate(Object obj, boolean onlyNotNull) {
-		Update update = new Update();
-		update.toProperties(onlyNotNull);
+		Update update = newUpdate(obj).toProperties(onlyNotNull);
 		return update;
 	}
+	
+	public static Update newUpdateById(Object obj) {
+		Object[] result = ReflectUtils.invokeGetId(obj, obj.getClass()) ;
+		Update update = (Update) newUpdate(obj).where().equals(result[0].toString(),result[1]) ;
+		return update;
+	}
+	
+	
 
 	public String[] getProperties() {
 		return this.properties;
@@ -33,7 +45,7 @@ public class Update extends Where {
 		return this;
 	}
 
-	private void toProperties(boolean isNotNull) {
+	private Update toProperties(boolean isNotNull) {
 		Class<?> clz = this.update.getClass();
 		Field[] fields = clz.getDeclaredFields();
 
@@ -50,7 +62,7 @@ public class Update extends Where {
 				if (!isNotNull) {
 					propertyList.add(field.getName());
 				} else {
-					Object value = ReflectGetterUtils.invoke(this.update, clz, field.getName());
+					Object value = ReflectUtils.invokeGet(this.update, clz, field.getName());
 					if (value != null) {
 						propertyList.add(field.getName());
 					}
@@ -59,6 +71,7 @@ public class Update extends Where {
 		}
 
 		this.properties = ((String[]) propertyList.toArray(new String[propertyList.size()]));
+		return this ;
 	}
 
 	public Object getUpdate() {

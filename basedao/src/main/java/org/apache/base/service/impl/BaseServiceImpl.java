@@ -16,9 +16,9 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 	}
 
 	@Override
-	public int updateNotNull(T domain) {
+	public int updateNotNullById(T domain) {
 		Update update = Update.newUpdate(domain, true);
-		int reflect = this.getMapper().update(update);
+		int reflect = this.getMapper().updateNotNullById(update);
 		return reflect;
 	}
 

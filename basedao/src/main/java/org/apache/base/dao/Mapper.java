@@ -20,7 +20,7 @@ public abstract interface Mapper<T> {
 	public abstract int insert(Insert paramInsert);
 
 	@UpdateProvider(type = UpdateSqlProvider.class, method = "update")
-	public abstract int update(Update paramUpdate);
+	public abstract int updateNotNullById(Update paramUpdate);
 
 //	@UpdateProvider(type = UpdateSqlProvider.class, method = "update")
 //	public abstract int updateNotNull(Update paramUpdate);

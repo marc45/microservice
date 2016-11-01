@@ -10,7 +10,7 @@ public interface BaseService<T> {
 	
 	public int save(T domain);
 	
-	public int updateNotNull(T domain);
+	public int updateNotNullById(T domain);
 	
 	public int delete(T domain);
 	

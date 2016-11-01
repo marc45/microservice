@@ -9,6 +9,8 @@
 
 	<name>kafka</name>
 	<url>http://maven.apache.org</url>
+	
+	
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,4 +29,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<build>
+	
+	</build>
 </project>

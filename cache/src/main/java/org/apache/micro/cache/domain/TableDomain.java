@@ -1,6 +1,14 @@
 package org.apache.micro.cache.domain;
 
+import javax.persistence.Id;
+
 public class TableDomain {
+
+	@Id
+	private long id;
+
+	// 相关联数据源ID
+	private long dataSourceId;
 
 	private String tableName;
 
@@ -31,6 +39,22 @@ public class TableDomain {
 
 	public void setKeyField(String keyField) {
 		this.keyField = keyField;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public long getDataSourceId() {
+		return dataSourceId;
+	}
+
+	public void setDataSourceId(long dataSourceId) {
+		this.dataSourceId = dataSourceId;
 	}
 
 }

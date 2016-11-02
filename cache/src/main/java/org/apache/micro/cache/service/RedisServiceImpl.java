@@ -18,9 +18,9 @@ public class RedisServiceImpl implements RedisService {
 	public <T> void set(String key,T value){
 		try {
 			String json = objectMapper.writeValueAsString(value) ;
+			stringRedisTemplate.opsForValue().set(key, json);
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e) ;
 		}
 	}
 	

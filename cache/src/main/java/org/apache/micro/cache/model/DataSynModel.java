@@ -1,13 +1,21 @@
-package org.apache.micro.cache.domain;
+package org.apache.micro.cache.model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 
-public class DataSynDomain {
+import org.apache.micro.cache.domain.DataSourceDomain;
+import org.apache.micro.cache.domain.StringObject;
+import org.apache.micro.cache.domain.TableDomain;
 
-	private static DataSynDomain dataSyn = new DataSynDomain();
+public class DataSynModel {
+
+	private static DataSynModel dataSyn = new DataSynModel();
+
+	private static Map<Long, DataSourceDomain> dsMap = new HashMap<>();
 
 	private static Queue<StringObject> sobjectQueue = new ConcurrentLinkedQueue<>();
 
@@ -16,14 +24,14 @@ public class DataSynDomain {
 	 * 0 进行中 1 已完成
 	 */
 	private CountDownLatch platch = null;
-	
-	private CountDownLatch clatch = null;
 
-	private DataSynDomain() {
+	// private CountDownLatch clatch = null;
+
+	private DataSynModel() {
 
 	}
 
-	public static DataSynDomain getInstance() {
+	public static DataSynModel getInstance() {
 		return dataSyn;
 	}
 
@@ -53,5 +61,16 @@ public class DataSynDomain {
 		this.platch = platch;
 	}
 
+	public void put(Long key, DataSourceDomain value) {
+		dsMap.put(key, value);
+	}
+
+	public void put(Long key) {
+		dsMap.get(key);
+	}
+
+	public Map<Long, DataSourceDomain> getDsMap() {
+		return dsMap;
+	}
 
 }

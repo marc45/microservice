@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.Connection;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import com.rabbitmq.client.AMQP.Queue.DeclareOk;
 import com.rabbitmq.client.Channel;
@@ -23,11 +22,12 @@ public class RabbitmqApplication {
 //		template.
 		connectionFactory.setUsername("guest");
 		connectionFactory.setPassword("guest");
+		
 
 		Connection connection = connectionFactory.createConnection();
 		Channel channel = connection.createChannel(true) ;
 //		channel.basiccon
+//		channel.pu
 		
-		DeclareOk ok = channel.queueDeclare() ;
 	}
 }

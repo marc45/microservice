@@ -6,21 +6,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.micro.cache.domain.DataSourceDomain;
-import org.apache.micro.cache.domain.DataSynDomain;
 import org.apache.micro.cache.domain.StringObject;
 import org.apache.micro.cache.domain.TableDomain;
+import org.apache.micro.cache.model.DataSynModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DataProducer implements Runnable {
+public class DataSynProducer implements Runnable {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(DataProducer.class) ;
-
-	private DataSourceDomain dataSourceDomain;
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataSynProducer.class) ;
 
 	/**
 	 * 0 正在运行中
@@ -35,16 +32,20 @@ public class DataProducer implements Runnable {
 		try {
 			//如果表不在同一个数据源下的，该如何处理，修改DataSynDomain
 			TableDomain domain = null ;
-			while((domain = DataSynDomain.getInstance().pollTableDomain()) != null){
+			while((domain = DataSynModel.getInstance().pollTableDomain()) != null){
 				initData(domain);
 			}
 		} catch (Throwable t) {
 			LOGGER.error(t.getMessage(),t) ;
+		}finally{
+			//如果是kill -9 异常退出时如何处理，这时整个进程已经退出
+			DataSynModel.getInstance().getPlatch().countDown();
 		}
 
 	}
 
-	private Connection getConnection() {
+	private Connection getConnection(TableDomain domain) {
+		DataSourceDomain dataSourceDomain = DataSynModel.getInstance().getDsMap().get(Long.valueOf(domain.getDataSourceId())) ;
 		Connection connection = null;
 		try {
 			Class.forName(dataSourceDomain.getDriver());
@@ -73,7 +74,8 @@ public class DataProducer implements Runnable {
 
 	private String getSelect(TableDomain table) {
 		// 全量查询会有可能有内存溢出的问题
-		String select = "select %1s from %2s";
+		String format = "select %1s from %2s";
+		String select = String.format(format, table.getFields(),table.getTableName())  ;
 		return select;
 	}
 
@@ -81,7 +83,7 @@ public class DataProducer implements Runnable {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			pstmt = getConnection().prepareStatement(getSelect(table));
+			pstmt = getConnection(table).prepareStatement(getSelect(table));
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Map<String, String> map = new HashMap<>();

@@ -1,7 +1,7 @@
 package org.apache.micro.cache.service;
 
-import org.apache.micro.cache.domain.DataSynDomain;
 import org.apache.micro.cache.domain.StringObject;
+import org.apache.micro.cache.model.DataSynModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -21,8 +21,8 @@ public class DataSynConsumer implements Runnable {
 	public void run() {
 		try{
 			StringObject sobject = null ;
-			while(DataSynDomain.getInstance().getPlatch().getCount() != 0){
-				sobject = DataSynDomain.getInstance().pollStringObject() ;
+			while(DataSynModel.getInstance().getPlatch().getCount() != 0){
+				sobject = DataSynModel.getInstance().pollStringObject() ;
 				if(sobject != null){
 					stringRedisTemplate.opsForValue().set(sobject.getKey(), objectMapper.writeValueAsString(sobject.getData()));
 				}

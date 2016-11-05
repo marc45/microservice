@@ -15,9 +15,9 @@ public abstract class ReflectUtils {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ReflectUtils.class);
 	
 	public static Object[] invokeGetId(Object target, Class<?> clz){
-		Object[] result = null ;
+		Object[] result = new Object[2] ;
 
-		Field[] fields = clz.getFields() ;
+		Field[] fields = clz.getDeclaredFields() ;
 		for (Field field : fields) {
 			Id id = (Id) field.getAnnotation(Id.class);
 			if(id != null){

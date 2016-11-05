@@ -14,11 +14,12 @@ public class Update extends Where {
 	
 	private static Update newUpdate(Object obj) {
 		Update update = new Update();
+		update.setUpdate(obj);
 		return update;
 	}
 
 
-	public static Update newUpdate(Object obj, String[] properties) {
+	public static Update newUpdateByProperties(Object obj, String[] properties) {
 		Update update = newUpdate(obj).addSetProperties(properties) ;
 		return update;
 	}
@@ -28,9 +29,9 @@ public class Update extends Where {
 		return update;
 	}
 	
-	public static Update newUpdateById(Object obj) {
+	public static Update newUpdateNotNullById(Object obj) {
 		Object[] result = ReflectUtils.invokeGetId(obj, obj.getClass()) ;
-		Update update = (Update) newUpdate(obj).where().equals(result[0].toString(),result[1]) ;
+		Update update = (Update) newUpdate(obj).toProperties(true).where().equals(result[0].toString(),result[1]) ;
 		return update;
 	}
 	

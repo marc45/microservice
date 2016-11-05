@@ -1,23 +1,20 @@
 package org.apache.base.dao.table;
 
 public class Insert {
-	private Object insert;
+	private Object[] domains;
 
-	public static Insert newInsert(Object domain) {
+	public static Insert newInsert(Object[] domains) {
 		Insert insert = new Insert();
-		insert.setInsert(domain);
+		insert.setDomains(domains);
 		return insert;
 	}
 
-	public void insert(Object obj) {
-		this.insert = obj;
+	public Object[] getDomains() {
+		return domains;
 	}
 
-	public Object getInsert() {
-		return this.insert;
+	public void setDomains(Object[] domains) {
+		this.domains = domains;
 	}
 
-	public void setInsert(Object insert) {
-		this.insert = insert;
-	}
 }

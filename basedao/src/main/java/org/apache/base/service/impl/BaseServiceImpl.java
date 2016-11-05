@@ -10,7 +10,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
 
 	@Override
 	public int save(T domain) {
-		Insert insert = Insert.newInsert(domain);
+		Insert insert = Insert.newInsert(new Object[]{domain});
 		int reflect = getMapper().insert(insert);
 		return reflect;
 	}

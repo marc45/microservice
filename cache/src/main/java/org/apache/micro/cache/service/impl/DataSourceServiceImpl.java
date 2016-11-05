@@ -2,7 +2,7 @@ package org.apache.micro.cache.service.impl;
 
 import java.util.List;
 
-import org.apache.base.dao.Mapper;
+import org.apache.base.dao.BaseMapper;
 import org.apache.base.dao.table.Select;
 import org.apache.base.service.impl.BaseServiceImpl;
 import org.apache.micro.cache.domain.DataSourceDomain;
@@ -18,7 +18,7 @@ public class DataSourceServiceImpl extends BaseServiceImpl<DataSourceDomain> imp
 	private DataSourceMapper dataSourceMapper ;
 
 	@Override
-	public Mapper<DataSourceDomain> getMapper() {
+	public BaseMapper<DataSourceDomain> getMapper() {
 		return dataSourceMapper ;
 	}
 

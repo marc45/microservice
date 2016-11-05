@@ -2,11 +2,11 @@ package org.apache.base.service;
 
 import java.util.List;
 
-import org.apache.base.dao.Mapper;
+import org.apache.base.dao.BaseMapper;
 
 public interface BaseService<T> {
 
-	public Mapper<T> getMapper() ;
+	public BaseMapper<T> getMapper() ;
 	
 	public int save(T domain);
 	

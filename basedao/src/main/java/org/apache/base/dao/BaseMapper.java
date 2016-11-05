@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 
-public abstract interface Mapper<T> {
+public abstract interface BaseMapper<T> {
 	@SelectProvider(type = SelectSqlProvider.class, method = "select")
 	public abstract List<T> select(Select paramSelect);
 

@@ -19,6 +19,7 @@ public class RedisServiceImpl implements RedisService {
 		try {
 			String json = objectMapper.writeValueAsString(value) ;
 			stringRedisTemplate.opsForValue().set(key, json);
+//			stringRedisTemplate.slas
 		} catch (JsonProcessingException e) {
 			throw new RuntimeException(e) ;
 		}

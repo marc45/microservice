@@ -1,4 +1,4 @@
-package org.apache.micro.cache;
+package org.apache.micro.spring;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

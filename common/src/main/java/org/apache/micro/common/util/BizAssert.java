@@ -1,11 +1,9 @@
 package org.apache.micro.common.util;
 
-import java.util.Locale;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
-import org.springframework.stereotype.Component;
+
+import java.util.Locale;
 
 public class BizAssert implements MessageSourceAware{
 	

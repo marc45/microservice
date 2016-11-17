@@ -1,9 +1,11 @@
 package org.apache.micro.order.service;
 
-import org.apache.micro.order.domain.OrderRequest;
-import org.apache.micro.order.domain.OrderResponse;
+import org.apache.micro.order.domain.order.OrderRequest;
+import org.apache.micro.order.domain.order.OrderResponse;
 
 public interface OrderService {
 
-	public OrderResponse receive(OrderRequest request) ;
+	public OrderResponse save(OrderRequest request) ;
+
+	public OrderResponse find(OrderRequest request) ;
 }

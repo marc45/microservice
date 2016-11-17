@@ -25,4 +25,11 @@ public class kafkaProducerApplication {
 
 		 producer.close();
 	}
+
+	public class P{
+
+		public void send(){
+
+		}
+	}
 }

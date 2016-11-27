@@ -5,5 +5,6 @@ package org.apache.micro.curator;
  */
 public interface ZookeeperService {
 
-    public void getNextZnode(String path) ;
+    String getDistributedLock(String appName,String serviceName,String id) ;
+
 }

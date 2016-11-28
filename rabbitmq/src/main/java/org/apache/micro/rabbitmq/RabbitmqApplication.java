@@ -53,13 +53,22 @@ public class RabbitmqApplication {
 //		container.setPrefetchCount(1);
 		FixedBackOffPolicy policy = new FixedBackOffPolicy() ;
 //		container.setRecoveryBackOff(new recover);
-		container.setAcknowledgeMode(AcknowledgeMode.AUTO);
+		container.setChannelTransacted(true);
+//		container.setAcknowledgeMode(AcknowledgeMode.AUTO);
 		container.setMessageListener(new MessageListener() {
 			
 			@Override
 			public void onMessage(Message arg0) {
-				String msg = new String(arg0.getBody(),Charset.forName("utf-8")) ;
-				System.out.println("receive msg:"+msg);
+
+			System.out.println("now1 "+System.currentTimeMillis()) ;
+				try {
+					TestDomain domain = objectMapper.readValue(arg0.getBody(),TestDomain.class) ;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				System.out.println("now2 "+System.currentTimeMillis()) ;
+
+//				System.out.println("receive msg:"+msg);
 //				if(Math.random() > 0.5){
 					throw new RuntimeException("failed") ;
 //				}

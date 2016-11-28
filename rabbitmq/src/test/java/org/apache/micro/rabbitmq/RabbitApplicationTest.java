@@ -9,11 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.amqp.core.AcknowledgeMode;
-import org.springframework.amqp.core.Exchange;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageListener;
-import org.springframework.amqp.core.ReceiveAndReplyCallback;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate.ConfirmCallback;
@@ -56,7 +52,10 @@ public class RabbitApplicationTest {
 
 	@Test
 	public void testSend() {
-		
+
+		rabbitTemplate.setChannelTransacted(true);
+
+
 		rabbitTemplate.setConfirmCallback(new ConfirmCallback() {
 			
 			@Override
@@ -85,7 +84,7 @@ public class RabbitApplicationTest {
 		domain.setIdno("350525198611014972");
 		domain.setName("黄跃文");
 		domain.setAddress("福建省泉州市永春县石鼓镇半岭村3组810号");
-		domain.setBirth(new Date());
+
 		try {
 //			String message = objectMapper.writeValueAsString(domain) ;
 			long start = System.currentTimeMillis() ;
@@ -97,15 +96,25 @@ public class RabbitApplicationTest {
 //			cservice.shutdown();
 //			while(!cservice.isTerminated()){
 //			}
-			
+
+			byte[] bdata = objectMapper.writeValueAsString(domain).getBytes() ;
 			for(int i =0 ;i< 1 ;i++){
+				if(i %10 ==0){
+					Thread.currentThread().sleep(500l);
+				}
 //				Object result = rabbitTemplate.convertSendAndReceive(routeKey, message);
 //				System.out.println(result);
-				domain.setIdno(domain.getIdno()+i);
-				rabbitTemplate.convertAndSend("amq.direct","hello", objectMapper.writeValueAsString(domain) );
+				domain.setBirth(new Date());
+//				domain.setIdno(domain.getIdno()+i);
+				MessageProperties prop = new MessageProperties() ;
+				prop.setTimestamp(new Date());
+				Message message = new Message(bdata,prop) ;
+				System.out.println("send1 "+System.currentTimeMillis());
+				rabbitTemplate.send("amq.direct","hello",message);
+				System.out.println("send2 "+System.currentTimeMillis());
 			}
-			
-			
+
+
 			System.out.println("ack and nack "+cack.get()+" "+cnack.get());
 			System.out.println("publisher cost:"+(System.currentTimeMillis()-start));
 			
@@ -169,7 +178,7 @@ public class RabbitApplicationTest {
 			}
 		});
 	}
-	
+
 	@Test
 	public void testAsynReceive(){
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory) ;

@@ -14,7 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path="/order")
 public class OrderServiceImpl implements OrderService{
+	@Override
+	public OrderResponse save(OrderRequest request) {
+		return null;
+	}
 
+	@Override
+	public OrderResponse find(OrderRequest request) {
+		return null;
+	}
 
 	private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(OrderServiceImpl.class) ;
 
@@ -32,7 +40,6 @@ public class OrderServiceImpl implements OrderService{
 	@Autowired
 	private ProductService productClient ;
 
-	@Override
 	@RequestMapping("/receive")
 	@HystrixCommand(fallbackMethod = "receiveFailed")
 	public OrderResponse receive(OrderRequest request) {

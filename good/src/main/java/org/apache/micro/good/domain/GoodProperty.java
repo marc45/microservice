@@ -7,6 +7,7 @@ package org.apache.micro.good.domain;
  */
 public class GoodProperty {
 
+
     private long id ;
 
     private long propType ;

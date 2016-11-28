@@ -48,6 +48,7 @@ public class ZookeeperTest {
             nodeCache.start();
             nodeCache.getListenable( ).addListener(new NodeCacheListener() {
                 public void nodeChanged() throws Exception {
+                    nodeCache.getCurrentData().getStat() ;
                     System.out.println(new String(nodeCache.getCurrentData().getData())) ;
                     System.out.println(nodeCache.getCurrentData().getPath()) ;
                 }

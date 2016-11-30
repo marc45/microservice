@@ -25,36 +25,39 @@ public class kafkaProducerApplication {
 		props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
 
-		KafkaProducer<String, String> producer = new KafkaProducer<>(props);
-		for(int j = 0 ;j < 100 ;j++){
-			producer.send(new ProducerRecord<String, String>("test3", UUID.randomUUID().toString(),getRandomString(100))) ;
-		}
-		producer.flush();
-		producer.close();
+//		KafkaProducer<String, String> producer = new KafkaProducer<>(props);
+//		for(int j = 0 ;j < 10000 ;j++){
+//			producer.send(new ProducerRecord<String, String>("test3", UUID.randomUUID().toString(),getRandomString(100))) ;
+//		}
+//		producer.flush();
+//		producer.close();
 
-//		int pool = 1 ;
-//		ExecutorService executorService = Executors.newFixedThreadPool(pool) ;
-//		CountDownLatch countDownLatch = new CountDownLatch(pool) ;
-//		for(int i = 0 ;i < pool ;i++){
-//			executorService.submit(()->{
-//				Producer<String, String> producer = new KafkaProducer<>(props);
-//				for(int j = 0 ;j < 10 ;j++){
-//					producer.send(new ProducerRecord<String, String>("test1", UUID.randomUUID().toString(),getRandomString(100))) ;
-//				}
-//				countDownLatch.countDown();
-//				producer.flush();
-//				producer.close();
-//			}) ;
-//		}
-//
-//		while(countDownLatch.getCount() != 0){
-//			try {
-//				Thread.sleep( 500l);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		executorService.shutdown();
+		long start = System.currentTimeMillis() ;
+		int pool = 10 ;
+		ExecutorService executorService = Executors.newFixedThreadPool(pool) ;
+		CountDownLatch countDownLatch = new CountDownLatch(pool) ;
+		for(int i = 0 ;i < pool ;i++){
+			executorService.submit(()->{
+				Producer<String, String> producer = new KafkaProducer<>(props);
+				for(int j = 0 ;j < 100000 ;j++){
+					producer.send(new ProducerRecord<String, String>("test3", UUID.randomUUID().toString(),getRandomString(200))) ;
+				}
+				countDownLatch.countDown();
+				producer.flush();
+				producer.close();
+			}) ;
+		}
+
+		while(countDownLatch.getCount() != 0){
+			try {
+				Thread.sleep( 500l);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		System.out.println("=================================cost "+(System.currentTimeMillis()-start));
+		executorService.shutdown();
 	}
 
 	public static String getRandomString(int length) { //length表示生成字符串的长度

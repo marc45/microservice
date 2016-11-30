@@ -72,7 +72,8 @@ public class ZookeeperTest {
 
     @Test
     public void testCreateChildrenPath(){
-        int pool = 5 ;
+        long start = System.currentTimeMillis() ;
+        int pool = 100 ;
         countDownLatch = new CountDownLatch(pool) ;
         ExecutorService service = Executors.newFixedThreadPool(pool) ;
         for(int i =0 ;i<pool ;i++){
@@ -81,13 +82,13 @@ public class ZookeeperTest {
 
         service.shutdown();
         while(countDownLatch.getCount() != 0){
-            try {
-                Thread.sleep(3000l);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(3000l);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
-
+        System.out.println("cost "+(System.currentTimeMillis()-start));
     }
 
     public class R implements Runnable{
@@ -97,20 +98,17 @@ public class ZookeeperTest {
             System.out.println(client.getState().name());
             String root = testPath ;
             List<String> children = null;
-            try {
-                children = client.getChildren().forPath("/test");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
 
             String success = null ;
             while(true){
                 try {
+                    children = client.getChildren().forPath("/test");
                     success = getNextNode(children) ;
                     client.create().forPath(root+"/"+success) ;
                     break ;
                 } catch (Exception e) {
-                    CloseableUtils.closeQuietly(client);
+//                    e.printStackTrace();
+                   // CloseableUtils.closeQuietly(client);
                 }
             }
             System.out.println("=============="+success);

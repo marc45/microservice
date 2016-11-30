@@ -7,6 +7,7 @@ import javax.persistence.Table;
 @Table(name="GOOD")
 public class Good extends BaseDomain {
 
+
     @Id
     private String id  ;
 

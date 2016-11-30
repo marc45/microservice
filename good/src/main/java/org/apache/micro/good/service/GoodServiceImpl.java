@@ -1,5 +1,11 @@
 package org.apache.micro.good.service;
 
+<<<<<<< HEAD
+import org.apache.base.dao.table.Select;
+import org.apache.micro.good.domain.*;
+import org.apache.micro.good.mapper.GoodMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+=======
 import org.apache.base.dao.table.Insert;
 import org.apache.micro.good.domain.*;
 import org.apache.micro.good.mapper.GoodMapper;
@@ -7,9 +13,13 @@ import org.apache.micro.good.mapper.GoodPictureMapper;
 import org.apache.micro.good.mapper.GoodPropertyValueMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+>>>>>>> d329daeaac8f4ed230ad9cf4907ec25cdd9b2681
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +33,7 @@ public class GoodServiceImpl implements GoodService {
 	private GoodMapper goodMapper ;
 
 	@Autowired
+
 	private GoodPictureMapper goodPictureMapper ;
 
 	@Autowired
@@ -59,17 +70,21 @@ public class GoodServiceImpl implements GoodService {
 	}
 
 	@Override
-	public GoodResponse find(GoodRequest request) {
+	@RequestMapping(path="/{id}")
+	public List<GoodModel> find(long id) {
 		//根据名称查询商品
 		//
-		// 并发查询
+		Select goodSelect = (Select) Select.newSelect(Good.class).where().equals("id",id);
+		goodMapper.select(goodSelect) ;
+
+		// 并发子表查询
 
 		return null;
 	}
 
 	@Override
-	public GoodResponse update(GoodRequest request) {
-		return null;
+	public void update(GoodModel request) {
+
 	}
 
 	public Good getGood(){

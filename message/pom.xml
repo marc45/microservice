@@ -18,7 +18,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.apache</groupId>
+			<groupId>org.apache.micro</groupId>
 			<artifactId>basedao</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

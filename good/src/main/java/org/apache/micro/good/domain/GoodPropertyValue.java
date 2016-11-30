@@ -1,5 +1,6 @@
 package org.apache.micro.good.domain;
 
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 

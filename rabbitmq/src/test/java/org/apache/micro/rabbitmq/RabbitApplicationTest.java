@@ -53,7 +53,6 @@ public class RabbitApplicationTest {
 	@Test
 	public void testSend() {
 
-		rabbitTemplate.setChannelTransacted(true);
 
 
 		rabbitTemplate.setConfirmCallback(new ConfirmCallback() {
@@ -70,14 +69,14 @@ public class RabbitApplicationTest {
 			}
 		});
 		
-//		rabbitTemplate.setReturnCallback(new ReturnCallback() {
-//			
-//			@Override
-//			public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
-//				count.incrementAndGet() ;
-//				
-//			}
-//		});
+		rabbitTemplate.setReturnCallback(new ReturnCallback() {
+
+			@Override
+			public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
+				System.out.println("return back....");
+
+			}
+		});
 		
 //		rabbitTemplate.setReturnCallback(new );
 		TestDomain domain = new TestDomain() ;
@@ -86,33 +85,27 @@ public class RabbitApplicationTest {
 		domain.setAddress("福建省泉州市永春县石鼓镇半岭村3组810号");
 
 		try {
-//			String message = objectMapper.writeValueAsString(domain) ;
+			String message = objectMapper.writeValueAsString(domain) ;
 			long start = System.currentTimeMillis() ;
-//			int pool = 1 ;
-//			ExecutorService cservice = Executors.newFixedThreadPool(pool) ;
-//			for(int i = 0 ;i < pool ; i++){
-//				cservice.execute(new P(message));
-//			}
-//			cservice.shutdown();
-//			while(!cservice.isTerminated()){
-//			}
-
-			byte[] bdata = objectMapper.writeValueAsString(domain).getBytes() ;
-			for(int i =0 ;i< 1 ;i++){
-				if(i %10 ==0){
-					Thread.currentThread().sleep(500l);
-				}
-//				Object result = rabbitTemplate.convertSendAndReceive(routeKey, message);
-//				System.out.println(result);
-				domain.setBirth(new Date());
-//				domain.setIdno(domain.getIdno()+i);
-				MessageProperties prop = new MessageProperties() ;
-				prop.setTimestamp(new Date());
-				Message message = new Message(bdata,prop) ;
-				System.out.println("send1 "+System.currentTimeMillis());
-				rabbitTemplate.send("amq.direct","hello",message);
-				System.out.println("send2 "+System.currentTimeMillis());
+			int pool = 10 ;
+			ExecutorService cservice = Executors.newFixedThreadPool(pool) ;
+			for(int i = 0 ;i < pool ; i++){
+				cservice.execute(new P(message));
 			}
+			cservice.shutdown();
+			while(!cservice.isTerminated()){
+			}
+
+//			byte[] bdata = objectMapper.writeValueAsString(domain).getBytes() ;
+//			for(int i =0 ;i< 10000 ;i++){
+//				domain.setBirth(new Date());
+//				MessageProperties prop = new MessageProperties() ;
+//				prop.setTimestamp(new Date());
+//				Message message = new Message(bdata,prop) ;
+//				System.out.println("send1 "+System.currentTimeMillis());
+//				rabbitTemplate.send("amq.direct","foo",message);
+//				System.out.println("send2 "+System.currentTimeMillis());
+//			}
 
 
 			System.out.println("ack and nack "+cack.get()+" "+cnack.get());
@@ -122,10 +115,8 @@ public class RabbitApplicationTest {
 			
 			System.out.println("ack and nack "+cack.get()+" "+cnack.get());
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -139,13 +130,13 @@ public class RabbitApplicationTest {
 			this.message = message;
 		}
 
-
 		@Override
 		public void run() {
+			byte[] bdata = message.getBytes() ;
+			MessageProperties prop = new MessageProperties() ;
+				Message msg = new Message(bdata,prop) ;
 			for(int i =0 ;i< 10000 ;i++){
-//				Object result = rabbitTemplate.convertSendAndReceive(routeKey, message);
-//				System.out.println(result);
-				rabbitTemplate.convertAndSend(routeKey, message);
+				rabbitTemplate.send("amq.direct",routeKey, msg);
 //				rabbitTemplate.
 			}
 			

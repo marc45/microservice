@@ -1,19 +1,16 @@
 package org.apache.micro.good.service;
 
-<<<<<<< HEAD
-import org.apache.base.dao.table.Select;
-import org.apache.micro.good.domain.*;
-import org.apache.micro.good.mapper.GoodMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-=======
+
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import org.apache.base.dao.table.Insert;
+import org.apache.base.dao.table.Select;
 import org.apache.micro.good.domain.*;
 import org.apache.micro.good.mapper.GoodMapper;
 import org.apache.micro.good.mapper.GoodPictureMapper;
 import org.apache.micro.good.mapper.GoodPropertyValueMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
->>>>>>> d329daeaac8f4ed230ad9cf4907ec25cdd9b2681
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,7 +44,7 @@ public class GoodServiceImpl implements GoodService {
 	@Override
 	@RequestMapping(path="/save")
 	@Transactional
-	public GoodResponse save(GoodRequest requesst) {
+	public void save(GoodModel requesst) {
 
 		Good good = getGood() ;
 		String goodId = good.getId() ;
@@ -66,7 +63,6 @@ public class GoodServiceImpl implements GoodService {
 		goodPictureMapper.insert(pictureInsert) ;
 		goodPropertyValueMapper.insert(propertyValueInsert) ;
 
-		return null;
 	}
 
 	@Override
@@ -75,9 +71,20 @@ public class GoodServiceImpl implements GoodService {
 		//根据名称查询商品
 		//
 		Select goodSelect = (Select) Select.newSelect(Good.class).where().equals("id",id);
-		goodMapper.select(goodSelect) ;
+//		goodMapper.select(goodSelect) ;
 
+		Select pictureSelect = (Select) Select.newSelect(GoodPicture.class).where().equals("goodId",id);
+
+		Select propertyValue = (Select) Select.newSelect(GoodPropertyValue.class).where().equals("goodId",id);
+
+		Observable.fromArray(new Select[]{}).flatMap(item ->{
+
+			return null ;
+		}).observeOn(Schedulers.computation()).subscribe( result -> {});
+
+//		Observable.just().sub
 		// 并发子表查询
+
 
 		return null;
 	}

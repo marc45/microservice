@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Random;
 
+import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,34 +48,38 @@ public class RabbitmqApplication {
 	@Bean
 	public SimpleMessageListenerContainer getSimpleMessageListenerContainer(){
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory) ;
-		container.setConcurrentConsumers(1);
-		container.setQueueNames("hello");
+		container.setConcurrentConsumers(100);
+		container.setQueueNames("foo");
 		container.setAutoStartup(true);
 //		container.setChannelTransacted(true);
 //		container.setPrefetchCount(1);
 		FixedBackOffPolicy policy = new FixedBackOffPolicy() ;
 //		container.setRecoveryBackOff(new recover);
-		container.setChannelTransacted(true);
-//		container.setAcknowledgeMode(AcknowledgeMode.AUTO);
-		container.setMessageListener(new MessageListener() {
-			
+		container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
+		//手工确认，确认超时
+		container.setMessageListener(new ChannelAwareMessageListener(){
 			@Override
-			public void onMessage(Message arg0) {
-
-			System.out.println("now1 "+System.currentTimeMillis()) ;
-				try {
-					TestDomain domain = objectMapper.readValue(arg0.getBody(),TestDomain.class) ;
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				System.out.println("now2 "+System.currentTimeMillis()) ;
-
-//				System.out.println("receive msg:"+msg);
-//				if(Math.random() > 0.5){
-					throw new RuntimeException("failed") ;
-//				}
+			public void onMessage(Message message, Channel channel) throws Exception {
+				TestDomain domain = objectMapper.readValue(message.getBody(),TestDomain.class) ;
+				Thread.sleep(30l);
+				channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
 			}
 		});
+//		container.setMessageListener(new MessageListener() {
+//
+//			@Override
+//			public void onMessage(Message arg0) {
+//
+//			System.out.println("now1 "+System.currentTimeMillis()) ;
+//				try {
+//					TestDomain domain = objectMapper.readValue(arg0.getBody(),TestDomain.class) ;
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//				System.out.println("now2 "+System.currentTimeMillis()) ;
+//
+//			}
+//		});
 		return container ;
 	}
 	

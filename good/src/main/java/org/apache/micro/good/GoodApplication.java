@@ -2,15 +2,17 @@ package org.apache.micro.good;
 
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 
 import javax.sql.DataSource;
 
 @SpringBootApplication
-public class ProductApplication {
+@EnableEurekaClient
+public class GoodApplication extends SpringBootServletInitializer {
 
 	@Bean
 	public SqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource){
@@ -28,6 +30,6 @@ public class ProductApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProductApplication.class, args) ;
+		SpringApplication.run(GoodApplication.class, args) ;
 	}
 }

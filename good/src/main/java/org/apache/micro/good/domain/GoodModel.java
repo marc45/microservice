@@ -7,6 +7,14 @@ import java.util.List;
  */
 public class GoodModel {
 
+    private String name ;
+
+    private List<String> pictureUrls ;
+
+
+
+
+
     private Good good ;
 
     private List<GoodProperty> goodProperties ;
